@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 默认加载下面配置的信息，如果有db.properties文件，则使用db.properties文件中的属性 -->
+	<properties resource="db.properties">
+		<property name="jdbc.driver" value="com.mysql.jdbc.Driver"/>
+		<property name="jdbc.url" value="jdbc:mysql://localhost:3306/mybatis-mapper-demo?characterEncoding=UTF-8"/>
+		<property name="jdbc.username" value="root"/>
+		<property name="jdbc.password" value="root"/>
+	</properties>
+
+	<!-- 数据库连接配置：和spring整合后 environments配置将废除 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}"/>
+				<property name="url" value="${jdbc.url}"/>
+				<property name="username" value="${jdbc.username}"/>
+				<property name="password" value="${jdbc.password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- 注册mapper文件 -->
+	<mappers>
+		<mapper resource="mapper/user.xml"/>
+		<!-- 其他的配置方式：<mapper url="磁盘全路径"/> -->
+	</mappers>
+</configuration>

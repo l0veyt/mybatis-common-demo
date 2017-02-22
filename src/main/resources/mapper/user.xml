@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace的作用隔离sql语句，名字可以随意，可以理解为包名 -->
+<mapper namespace="test">
+	<!-- 实体类的属性名和数据库中的字段名相同时将自动映射 -->
+	<select id="selectUserById" parameterType="Integer" resultType="com.xinlee.demo.pojo.User">
+		<!-- 如果是普通数据类型 #{id} 中的id可以任意命名
+             如果是引用数据类型 #{id} 中的值必须是对象相应的属性
+        -->
+		SELECT * FROM t_user WHERE id = #{id}
+	</select>
+
+	<!-- 这里查询的结果为多个，使用resultType表示每个结果的类型为User -->
+	<select id="selectUserByName" parameterType="String" resultType="com.xinlee.demo.pojo.User">
+		SELECT * FROM t_user WHERE username LIKE #{username}
+
+		<!--
+            模糊匹配使用%%，如果想把% %符号写在sql里，则应该使用${value}
+            #{}表示占位符，${}表示连接符
+            且${}内必须是value，因为${}是字符串拼接，所以无法防止sql注入
+            SELECT * FROM user WHERE username LIKE %${value}%
+        -->
+	</select>
+
+	<insert id="insertUser" parameterType="com.xinlee.demo.pojo.User">
+		INSERT INTO t_user (username, birthday) VALUES (#{username}, #{birthday});
+	</insert>
+</mapper>
